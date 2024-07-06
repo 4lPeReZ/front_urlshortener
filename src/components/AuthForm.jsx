@@ -5,14 +5,21 @@ const AuthForm = ({ isLogin, onSubmit }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onSubmit({ email, password, username });
+    if (!email || !password || (!isLogin && !username)) {
+      setError('Please fill in all fields.');
+      return;
+    }
+    const payload = { email, password, username };
+    await onSubmit(payload, setError);
   };
 
   return (
     <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow-md">
+      {error && <p className="text-red-500">{error}</p>}
       {!isLogin && (
         <div className="mb-4">
           <label htmlFor="username" className="block text-gray-700">Username</label>
@@ -21,7 +28,7 @@ const AuthForm = ({ isLogin, onSubmit }) => {
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border rounded text-black"
           />
         </div>
       )}
@@ -32,7 +39,7 @@ const AuthForm = ({ isLogin, onSubmit }) => {
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full p-2 border rounded"
+          className="w-full p-2 border rounded text-black"
         />
       </div>
       <div className="mb-4">
@@ -42,7 +49,7 @@ const AuthForm = ({ isLogin, onSubmit }) => {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full p-2 border rounded"
+          className="w-full p-2 border rounded text-black"
         />
       </div>
       <button type="submit" className="bg-blue-500 text-white p-2 rounded">
