@@ -1,4 +1,3 @@
-// src/pages/LoginPage.jsx
 import React, { useState, useEffect } from 'react';
 import AuthForm from '../components/AuthForm';
 import CustomModal from '../components/Modal/CustomModal';
@@ -19,18 +18,13 @@ const LoginPage = ({ setIsLoggedIn, setUser }) => {
     console.log('Handling login...');
     await handleLogin(credentials, setIsLoggedIn, setUser, setError, setModalMessage);
     console.log(`Login error state: ${error}`);
-    if (error === null) {
-      console.log('Setting modal open to true');
-      setIsModalOpen(true);
-    } else {
-      setIsModalOpen(true);
-    }
+    setIsModalOpen(true);
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
     console.log('Modal closed');
-    if (error === null) {
+    if (!error) {
       navigate('/');
     }
   };

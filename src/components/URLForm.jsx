@@ -1,4 +1,3 @@
-// src/components/URLForm.jsx
 import React, { useState } from 'react';
 import api from '../api/axios';
 
@@ -6,11 +5,12 @@ const URLForm = ({ onSubmit }) => {
   const [originalUrl, setOriginalUrl] = useState('');
   const [customUrl, setCustomUrl] = useState('');
   const [expiresAt, setExpiresAt] = useState('');
+  const userId = JSON.parse(localStorage.getItem('user'))._id;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const payload = { originalUrl, customUrl, expiresAt };
-    
+    const payload = { originalUrl, customUrl, expiresAt, userId };
+
     try {
       const response = await api.post('/url/shorten', payload);
       onSubmit(response.data);

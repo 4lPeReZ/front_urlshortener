@@ -4,10 +4,12 @@ import api from '../api/axios';
 export const handleLogin = async (credentials, setIsLoggedIn, setUser, setError, setModalMessage) => {
   try {
     const response = await api.post('/auth/login', credentials);
+    const userId = response.data.userId;
+    if (!userId) throw new Error('User data is missing');
     localStorage.setItem('token', response.data.token);
-    localStorage.setItem('user', JSON.stringify({ name: response.data.username }));
+    localStorage.setItem('user', JSON.stringify({ _id: userId, name: credentials.username }));
     setIsLoggedIn(true);
-    setUser({ name: response.data.username });
+    setUser({ name: credentials.username });
     setModalMessage("Login successful!");
     setError(null);
   } catch (error) {
@@ -20,10 +22,12 @@ export const handleLogin = async (credentials, setIsLoggedIn, setUser, setError,
 export const handleRegister = async (userInfo, setIsLoggedIn, setUser, setError, setModalMessage) => {
   try {
     const response = await api.post('/auth/register', userInfo);
+    const userId = response.data.userId;
+    if (!userId) throw new Error('User data is missing');
     localStorage.setItem('token', response.data.token);
-    localStorage.setItem('user', JSON.stringify({ name: response.data.username }));
+    localStorage.setItem('user', JSON.stringify({ _id: userId, name: userInfo.username }));
     setIsLoggedIn(true);
-    setUser({ name: response.data.username });
+    setUser({ name: userInfo.username });
     setModalMessage("Registration successful! Redirecting to login...");
     setError(null);
   } catch (error) {

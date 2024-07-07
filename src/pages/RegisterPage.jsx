@@ -31,7 +31,7 @@ const RegisterPage = ({ setIsLoggedIn, setUser }) => {
     setIsModalOpen(false);
     console.log('Modal closed');
     if (error === null) {
-      navigate('/login');
+      navigate('/');
     }
   };
 
