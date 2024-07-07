@@ -21,18 +21,45 @@ const HistoryPage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center p-8">
+    <div className="min-h-screen bg-gray-900 text-white p-8">
       <h1 className="text-2xl mb-4">My URL History</h1>
       {error && <p className="text-red-500">{error}</p>}
-      <ul className="w-full max-w-md">
-        {urls.map((url) => (
-          <li key={url._id} className="bg-white text-gray-900 p-4 mb-2 rounded shadow-md">
-            <p>Original URL: <a href={url.originalUrl} target="_blank" rel="noopener noreferrer" className="text-blue-500">{url.originalUrl}</a></p>
-            <p>Short URL: <a href={url.shortUrl} target="_blank" rel="noopener noreferrer" className="text-blue-500">{url.shortUrl}</a></p>
-            <p>Clicks: {url.clicks}</p>
-          </li>
-        ))}
-      </ul>
+      <div className="overflow-x-auto">
+        <table className="min-w-full bg-gray-800 rounded-lg">
+          <thead>
+            <tr>
+              <th className="px-4 py-2">Short Link</th>
+              <th className="px-4 py-2">Original Link</th>
+              <th className="px-4 py-2">QR Code</th>
+              <th className="px-4 py-2">Clicks</th>
+              <th className="px-4 py-2">Status</th>
+              <th className="px-4 py-2">Date</th>
+              <th className="px-4 py-2">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {urls.map((url) => (
+              <tr key={url._id} className="border-t border-gray-700">
+                <td className="px-4 py-2">
+                  <a href={url.shortUrl} target="_blank" rel="noopener noreferrer" className="text-blue-500">{url.shortUrl}</a>
+                </td>
+                <td className="px-4 py-2">
+                  <a href={url.originalUrl} target="_blank" rel="noopener noreferrer" className="text-blue-500">{url.originalUrl}</a>
+                </td>
+                <td className="px-4 py-2">
+                  <img src={`https://api.qrserver.com/v1/create-qr-code/?data=${url.shortUrl}&size=100x100`} alt="QR Code" />
+                </td>
+                <td className="px-4 py-2">{url.clicks}</td>
+                <td className="px-4 py-2">{url.status}</td>
+                <td className="px-4 py-2">{new Date(url.createdAt).toLocaleDateString()}</td>
+                <td className="px-4 py-2">
+                  <button className="text-red-500">Delete</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './components/Header';
-import MainPage from './pages/MainPage';
+import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
+import HistoryPage from './pages/HistoryPage';
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -22,9 +23,10 @@ const App = () => {
     <Router>
       <Header isLoggedIn={isLoggedIn} user={user} setIsLoggedIn={setIsLoggedIn} setUser={setUser} />
       <Routes>
-        <Route path="/" element={<MainPage />} />
+        <Route path="/" element={<HomePage isLoggedIn={isLoggedIn} user={user} />} />
         <Route path="/login" element={<LoginPage setIsLoggedIn={setIsLoggedIn} setUser={setUser} />} />
         <Route path="/register" element={<RegisterPage setIsLoggedIn={setIsLoggedIn} setUser={setUser} />} />
+        {isLoggedIn && <Route path="/history" element={<HistoryPage />} />}
       </Routes>
     </Router>
   );
