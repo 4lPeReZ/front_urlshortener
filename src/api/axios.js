@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://back-urlshortener.onrender.com/api', // Asegúrate de que esta URL esté correcta
+  baseURL: 'https://back-urlshortener.onrender.com/api',
 });
 
 api.interceptors.request.use(
