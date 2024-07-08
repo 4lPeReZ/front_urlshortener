@@ -6,6 +6,8 @@ const HomePage = () => {
   const [originalUrl, setOriginalUrl] = useState('');
   const [urls, setUrls] = useState([]);
   const [error, setError] = useState('');
+  const [editingUrl, setEditingUrl] = useState(null);
+  const [newOriginalUrl, setNewOriginalUrl] = useState('');
 
   useEffect(() => {
     fetchUrls();
@@ -15,7 +17,10 @@ const HomePage = () => {
     try {
       const userId = JSON.parse(localStorage.getItem('user'))._id;
       const response = await api.get(`/url/user/${userId}`);
-      setUrls(response.data);
+      setUrls(response.data.map(url => ({
+        ...url,
+        shortUrl: `${url.shortUrl}`,
+      })));
     } catch (error) {
       console.error('Error fetching URLs', error);
       setError('Error fetching URLs. Please try again.');
@@ -27,10 +32,14 @@ const HomePage = () => {
     setError('');
 
     const userId = JSON.parse(localStorage.getItem('user'))._id;
+    const validOriginalUrl = ensureValidUrl(originalUrl);
 
     try {
-      const response = await api.post('/url/shorten', { originalUrl, userId });
-      setUrls([...urls, response.data]);
+      const response = await api.post('/url/shorten', { originalUrl: validOriginalUrl, userId });
+      setUrls([...urls, {
+        ...response.data,
+        shortUrl: `${response.data.shortUrl}`,
+      }]);
       setOriginalUrl('');
     } catch (error) {
       console.error('Error shortening URL', error);
@@ -46,6 +55,41 @@ const HomePage = () => {
       console.error('Error deleting URL', error);
       setError('Error deleting URL. Please try again.');
     }
+  };
+
+  const handleEdit = (url) => {
+    setEditingUrl(url);
+    setNewOriginalUrl(url.originalUrl);
+  };
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    const validNewOriginalUrl = ensureValidUrl(newOriginalUrl);
+    try {
+      const response = await api.put(`/url/update/${editingUrl._id}`, { originalUrl: validNewOriginalUrl });
+      const updatedUrl = {
+        ...response.data,
+        shortUrl: `${response.data.shortUrl}`
+      };
+      setUrls(urls.map((url) => (url._id === editingUrl._id ? updatedUrl : url)));
+      setEditingUrl(null);
+      setNewOriginalUrl('');
+    } catch (error) {
+      console.error('Error updating URL', error);
+      setError('Error updating URL. Please try again.');
+    }
+  };
+
+  const handleCancel = () => {
+    setEditingUrl(null);
+    setNewOriginalUrl('');
+  };
+
+  const ensureValidUrl = (url) => {
+    if (!/^https?:\/\//i.test(url)) {
+      return 'https://' + url;
+    }
+    return url;
   };
 
   return (
@@ -96,7 +140,24 @@ const HomePage = () => {
                 <td className="py-2 px-4">{url.status}</td>
                 <td className="py-2 px-4">{new Date(url.createdAt).toLocaleDateString()}</td>
                 <td className="py-2 px-4">
-                  <button onClick={() => handleDelete(url._id)} className="text-red-500">Delete</button>
+                  {editingUrl && editingUrl._id === url._id ? (
+                    <form onSubmit={handleUpdate} className="flex">
+                      <input
+                        type="text"
+                        value={newOriginalUrl}
+                        onChange={(e) => setNewOriginalUrl(e.target.value)}
+                        className="w-full p-2 border rounded text-black"
+                        required
+                      />
+                      <button type="submit" className="bg-green-500 text-white p-2 rounded ml-2">Save</button>
+                      <button onClick={handleCancel} className="bg-red-500 text-white p-2 rounded ml-2">Cancel</button>
+                    </form>
+                  ) : (
+                    <>
+                      <button onClick={() => handleEdit(url)} className="text-blue-500 mr-2">Edit</button>
+                      <button onClick={() => handleDelete(url._id)} className="text-red-500">Delete</button>
+                    </>
+                  )}
                 </td>
               </tr>
             ))}

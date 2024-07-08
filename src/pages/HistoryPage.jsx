@@ -10,7 +10,10 @@ const HistoryPage = () => {
       try {
         const userId = JSON.parse(localStorage.getItem('user'))._id;
         const response = await api.get(`/url/user/${userId}`);
-        setUrls(response.data);
+        setUrls(response.data.map(url => ({
+          ...url,
+          shortUrl: `https://back-urlshortener.onrender.com/api/url/${url.shortUrl}`,
+        })));
       } catch (error) {
         console.error('Error fetching URLs', error);
         setError('Error fetching URLs. Please try again.');
@@ -19,6 +22,23 @@ const HistoryPage = () => {
 
     fetchUrls();
   }, []);
+
+  const handleDelete = async (id) => {
+    try {
+      await api.delete(`/url/delete/${id}`);
+      setUrls(urls.filter((url) => url._id !== id));
+    } catch (error) {
+      console.error('Error deleting URL', error);
+      setError('Error deleting URL. Please try again.');
+    }
+  };
+
+  const ensureValidUrl = (url) => {
+    if (!/^https?:\/\//i.test(url)) {
+      return 'https://' + url;
+    }
+    return url;
+  };
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-8">
@@ -44,16 +64,16 @@ const HistoryPage = () => {
                   <a href={url.shortUrl} target="_blank" rel="noopener noreferrer" className="text-blue-500">{url.shortUrl}</a>
                 </td>
                 <td className="px-4 py-2">
-                  <a href={url.originalUrl} target="_blank" rel="noopener noreferrer" className="text-blue-500">{url.originalUrl}</a>
+                  <a href={ensureValidUrl(url.originalUrl)} target="_blank" rel="noopener noreferrer" className="text-blue-500">{url.originalUrl}</a>
                 </td>
                 <td className="px-4 py-2">
-                  <img src={`https://api.qrserver.com/v1/create-qr-code/?data=${url.shortUrl}&size=100x100`} alt="QR Code" />
+                  <img src={`https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(url.shortUrl)}&size=100x100`} alt="QR Code" />
                 </td>
                 <td className="px-4 py-2">{url.clicks}</td>
                 <td className="px-4 py-2">{url.status}</td>
                 <td className="px-4 py-2">{new Date(url.createdAt).toLocaleDateString()}</td>
                 <td className="px-4 py-2">
-                  <button className="text-red-500">Delete</button>
+                  <button onClick={() => handleDelete(url._id)} className="text-red-500">Delete</button>
                 </td>
               </tr>
             ))}
