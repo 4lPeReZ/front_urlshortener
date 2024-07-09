@@ -17,7 +17,7 @@ const AuthForm = ({ isLogin, onSubmit }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow-md max-w-md mx-auto">
+    <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow-md max-w-md w-full mx-auto">
       {error && <p className="text-red-500">{error}</p>}
       {!isLogin && (
         <div className="mb-4">
@@ -54,7 +54,7 @@ const AuthForm = ({ isLogin, onSubmit }) => {
           required
         />
       </div>
-      <button type="submit" className="bg-blue-500 text-white p-2 rounded">
+      <button type="submit" className="bg-blue-500 text-white p-2 rounded w-full">
         {isLogin ? 'Login' : 'Register'}
       </button>
     </form>

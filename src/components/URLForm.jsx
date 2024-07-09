@@ -1,43 +1,35 @@
 import React, { useState } from 'react';
-import api from '../api/axios';
 
 const URLForm = ({ onSubmit }) => {
   const [originalUrl, setOriginalUrl] = useState('');
-  const userId = JSON.parse(localStorage.getItem('user'))?._id || null;
+  const [error, setError] = useState('');
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const payload = { originalUrl, userId };
-
-    try {
-      const response = await api.post('/url/shorten', payload);
-      onSubmit(response.data);
-      setOriginalUrl('');
-    } catch (error) {
-      console.error('Error during URL shortening', error);
+    if (!originalUrl) {
+      setError('Please enter a URL.');
+      return;
     }
+    onSubmit(originalUrl);
+    setOriginalUrl('');
+    setError('');
   };
 
   return (
-    <form onSubmit={handleSubmit} className="p-4 bg-white rounded shadow-md">
+    <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow-md mb-8 max-w-md mx-auto">
+      {error && <p className="text-red-500">{error}</p>}
       <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="originalUrl">
-          Original URL
-        </label>
+        <label htmlFor="originalUrl" className="block text-gray-700">Original URL</label>
         <input
           id="originalUrl"
           type="text"
           value={originalUrl}
           onChange={(e) => setOriginalUrl(e.target.value)}
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          className="w-full p-2 border rounded text-black"
+          required
         />
       </div>
-      <button
-        type="submit"
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-      >
-        Acortar URL
-      </button>
+      <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white p-2 rounded-full shadow-md transition duration-300 w-full md:w-auto">Acortar URL</button>
     </form>
   );
 };

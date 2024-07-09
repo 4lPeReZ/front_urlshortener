@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../api/axios';
+import URLList from '../components/URLList';
 
 const HistoryPage = () => {
   const [urls, setUrls] = useState([]);
@@ -46,47 +47,11 @@ const HistoryPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-8">
+    <div className="min-h-screen bg-gray-900 text-white p-4 md:p-8">
       <h1 className="text-2xl mb-4">My URL History</h1>
-      {error && <p className="text-red-500">{error}</p>}
+      {error && <p className="text-red-500 mb-4">{error}</p>}
       {loading && <p className="text-yellow-500 mb-4">Loading...</p>}
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-gray-800 rounded-lg">
-          <thead>
-            <tr>
-              <th className="px-4 py-2">Short Link</th>
-              <th className="px-4 py-2">Original Link</th>
-              <th className="px-4 py-2">QR Code</th>
-              <th className="px-4 py-2">Clicks</th>
-              <th className="px-4 py-2">Status</th>
-              <th className="px-4 py-2">Date</th>
-              <th className="px-4 py-2">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {urls.map((url) => (
-              <tr key={url._id} className="border-t border-gray-700">
-                <td className="px-4 py-2">
-                  <a href={url.shortUrl} target="_blank" rel="noopener noreferrer" className="text-blue-500">{url.shortUrl}</a>
-                </td>
-                <td className="px-4 py-2">
-                  <a href={ensureValidUrl(url.originalUrl)} target="_blank" rel="noopener noreferrer" className="text-blue-500">{url.originalUrl}</a>
-                </td>
-                <td className="px-4 py-2">
-                  <img src={`https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(url.shortUrl)}&size=100x100`} alt="QR Code" />
-                </td>
-                <td className="px-4 py-2">{url.clicks}</td>
-                <td className="px-4 py-2">{url.status}</td>
-                <td className="px-4 py-2">{new Date(url.createdAt).toLocaleDateString()}</td>
-                <td className="px-4 py-2">
-                  <button onClick={() => handleDelete(url._id)} className="text-red-500">Delete</button>
-                  <button onClick={() => setActiveTab('history')} className={`text-white ${activeTab === 'history' ? 'border-b-2 border-blue-500' : ''}`}>History</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <URLList urls={urls} ensureValidUrl={ensureValidUrl} handleDelete={handleDelete} />
     </div>
   );
 };
