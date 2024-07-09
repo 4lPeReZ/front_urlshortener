@@ -1,4 +1,3 @@
-// src/components/AuthForm.jsx
 import React, { useState } from 'react';
 
 const AuthForm = ({ isLogin, onSubmit }) => {
@@ -13,12 +12,12 @@ const AuthForm = ({ isLogin, onSubmit }) => {
       setError('Please fill in all fields.');
       return;
     }
-    const payload = { email, password, username };
-    await onSubmit(payload, setError);
+    const payload = isLogin ? { email, password } : { email, password, username };
+    await onSubmit(payload);
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow-md">
+    <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow-md max-w-md mx-auto">
       {error && <p className="text-red-500">{error}</p>}
       {!isLogin && (
         <div className="mb-4">
@@ -29,6 +28,7 @@ const AuthForm = ({ isLogin, onSubmit }) => {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             className="w-full p-2 border rounded text-black"
+            required={!isLogin}
           />
         </div>
       )}
@@ -40,6 +40,7 @@ const AuthForm = ({ isLogin, onSubmit }) => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="w-full p-2 border rounded text-black"
+          required
         />
       </div>
       <div className="mb-4">
@@ -50,6 +51,7 @@ const AuthForm = ({ isLogin, onSubmit }) => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           className="w-full p-2 border rounded text-black"
+          required
         />
       </div>
       <button type="submit" className="bg-blue-500 text-white p-2 rounded">

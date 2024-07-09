@@ -1,15 +1,18 @@
-// src/handlers/authHandlers.js
 import api from '../api/axios';
 
 export const handleLogin = async (credentials, setIsLoggedIn, setUser, setError, setModalMessage) => {
   try {
     const response = await api.post('/auth/login', credentials);
-    const userId = response.data.userId;
-    if (!userId) throw new Error('User data is missing');
-    localStorage.setItem('token', response.data.token);
-    localStorage.setItem('user', JSON.stringify({ _id: userId, name: credentials.username }));
+    const { userId, username, token } = response.data;
+
+    if (!userId || !username) throw new Error('User data is missing');
+
+    localStorage.setItem('token', token);
+    localStorage.setItem('user', JSON.stringify({ _id: userId, name: username }));
+
     setIsLoggedIn(true);
-    setUser({ name: credentials.username });
+    setUser({ _id: userId, name: username });
+
     setModalMessage("Login successful!");
     setError(null);
   } catch (error) {
@@ -22,12 +25,16 @@ export const handleLogin = async (credentials, setIsLoggedIn, setUser, setError,
 export const handleRegister = async (userInfo, setIsLoggedIn, setUser, setError, setModalMessage) => {
   try {
     const response = await api.post('/auth/register', userInfo);
-    const userId = response.data.userId;
-    if (!userId) throw new Error('User data is missing');
-    localStorage.setItem('token', response.data.token);
-    localStorage.setItem('user', JSON.stringify({ _id: userId, name: userInfo.username }));
+    const { userId, username, token } = response.data;
+
+    if (!userId || !username) throw new Error('User data is missing');
+
+    localStorage.setItem('token', token);
+    localStorage.setItem('user', JSON.stringify({ _id: userId, name: username }));
+
     setIsLoggedIn(true);
-    setUser({ name: userInfo.username });
+    setUser({ _id: userId, name: username });
+
     setModalMessage("Registration successful! Redirecting to login...");
     setError(null);
   } catch (error) {
@@ -41,6 +48,6 @@ export const handleLogout = (setIsLoggedIn, setUser, navigate) => {
   localStorage.removeItem('token');
   localStorage.removeItem('user');
   setIsLoggedIn(false);
-  setUser({ name: '' });
+  setUser({ _id: '', name: '' });
   navigate('/');
 };
