@@ -66,7 +66,7 @@ const HomePage = () => {
         backgroundPosition: 'center'
       }}
     >
-      <h1 className="text-4xl mb-8 text-center">Shorten Your Loooong Links :)</h1>
+      <h1 class="mb-8 pt-32 text-center text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl"><span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Shorten Your Loooong Links :)</span></h1>
       {isLoggedIn ? (
         <>
           <URLForm onSubmit={handleFormSubmit} />
