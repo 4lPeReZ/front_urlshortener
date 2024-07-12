@@ -5,7 +5,7 @@ export const handleLogin = async (credentials, setIsLoggedIn, setUser, setError,
     const response = await api.post('/auth/login', credentials);
     const { userId, username, token } = response.data;
 
-    if (!userId || !username) throw new Error('User data is missing');
+    if (!userId || !username || !token) throw new Error('User data is missing');
 
     localStorage.setItem('token', token);
     localStorage.setItem('user', JSON.stringify({ _id: userId, name: username }));
@@ -22,20 +22,17 @@ export const handleLogin = async (credentials, setIsLoggedIn, setUser, setError,
   }
 };
 
-export const handleRegister = async (userInfo, setIsLoggedIn, setUser, setError, setModalMessage) => {
+export const handleRegister = async (userInfo, setError, setModalMessage) => {
   try {
     const response = await api.post('/auth/register', userInfo);
-    const { userId, username, token } = response.data;
+    console.log('Response from server:', response.data); // Verificar la respuesta del servidor
+    const { userId, message } = response.data;
 
-    if (!userId || !username) throw new Error('User data is missing');
+    if (!userId) {
+      throw new Error('User data is missing');
+    }
 
-    localStorage.setItem('token', token);
-    localStorage.setItem('user', JSON.stringify({ _id: userId, name: username }));
-
-    setIsLoggedIn(true);
-    setUser({ _id: userId, name: username });
-
-    setModalMessage("Registration successful! Redirecting to login...");
+    setModalMessage(message || "Registration successful! Redirecting to login...");
     setError(null);
   } catch (error) {
     console.error('Error during registration', error);

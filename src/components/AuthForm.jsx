@@ -54,7 +54,7 @@ const AuthForm = ({ isLogin, onSubmit }) => {
           required
         />
       </div>
-      <button type="submit" className="bg-blue-500 text-white p-2 rounded w-full">
+      <button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 w-full shadow-md transition duration-300">
         {isLogin ? 'Login' : 'Register'}
       </button>
     </form>

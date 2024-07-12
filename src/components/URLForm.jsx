@@ -16,7 +16,7 @@ const URLForm = ({ onSubmit }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex items-center bg-gray-800 rounded-full shadow-md p-1 max-w-xl mx-auto">
+    <form onSubmit={handleSubmit} className="flex items-center bg-gray-800 rounded-full shadow-md p-1 max-w-xl mx-auto mb-5">
       {error && <p className="text-red-500">{error}</p>}
       <div className="flex items-center flex-grow">
         <svg className="ml-3" width="27" height="19" viewBox="0 0 27 19" fill="none" xmlns="http://www.w3.org/2000/svg">

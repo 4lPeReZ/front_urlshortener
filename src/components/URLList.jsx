@@ -8,12 +8,12 @@ const URLList = ({ urls, onEdit, onDelete, editingUrl, setEditingUrl, newOrigina
         <thead>
           <tr className="bg-gray-800 text-left text-sm uppercase">
             <th className="py-3 px-6">Short Link</th>
-            <th className="py-3 px-6">Original Link</th>
-            <th className="py-3 px-6">QR Code</th>
-            <th className="py-3 px-6">Clicks</th>
-            <th className="py-3 px-6">Status</th>
-            <th className="py-3 px-6">Date</th>
-            <th className="py-3 px-6">Action</th>
+            <th className="py-3 px-6 w-1/4">Original Link</th>
+            <th className="py-3 px-6 text-center">QR Code</th>
+            <th className="py-3 px-6 text-center">Clicks</th>
+            <th className="py-3 px-6 text-center">Status</th>
+            <th className="py-3 px-6 text-center">Date</th>
+            <th className="py-3 px-6 text-center">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -34,7 +34,7 @@ const URLList = ({ urls, onEdit, onDelete, editingUrl, setEditingUrl, newOrigina
         </tbody>
       </table>
     </div>
-  );  
+  );
 };
 
 export default URLList;
