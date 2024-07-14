@@ -30,7 +30,13 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center p-4 md:p-8">
+    <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center p-4 md:p-8"
+      style={{
+        backgroundImage: `url(${process.env.PUBLIC_URL}/background.svg)`,
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center'
+      }}>
       <h1 className="mb-4 text-center text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl">
         <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Shorten Your Loooong Links :)</span>
       </h1>

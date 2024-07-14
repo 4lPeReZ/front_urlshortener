@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
 
+// Función para sanitizar URLs
+const sanitizeUrl = (url) => {
+  const sanitizedUrl = url.replace(/[^a-zA-Z0-9-._~:/?#[\]@!$&'()*+,;=%]/g, '');
+  return sanitizedUrl.trim();
+};
+
 const URLForm = ({ onSubmit }) => {
   const [originalUrl, setOriginalUrl] = useState('');
   const [error, setError] = useState('');
@@ -10,7 +16,9 @@ const URLForm = ({ onSubmit }) => {
       setError('Please enter a URL.');
       return;
     }
-    onSubmit(originalUrl);
+
+    const sanitizedUrl = sanitizeUrl(originalUrl);
+    onSubmit(sanitizedUrl);
     setOriginalUrl('');
     setError('');
   };
@@ -37,7 +45,6 @@ const URLForm = ({ onSubmit }) => {
       </button>
     </form>
   );
-  
 };
 
 export default URLForm;

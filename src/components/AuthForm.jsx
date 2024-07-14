@@ -1,5 +1,23 @@
 import React, { useState } from 'react';
 
+// Función para sanitizar el email
+const sanitizeEmail = (email) => {
+  const sanitizedEmail = email.replace(/[^\w@.-]/g, '');
+  return sanitizedEmail.trim();
+};
+
+// Función para sanitizar el password
+const sanitizePassword = (password) => {
+  const sanitizedPassword = password.replace(/[^a-zA-Z0-9!@#$%^&*()_+=[\]{};':"\\|,.<>/?-]/g, '');
+  return sanitizedPassword.trim();
+};
+
+// Función para sanitizar el username
+const sanitizeUsername = (username) => {
+  const sanitizedUsername = username.replace(/[^a-zA-Z0-9]/g, '');
+  return sanitizedUsername.trim();
+};
+
 const AuthForm = ({ isLogin, onSubmit }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -12,7 +30,17 @@ const AuthForm = ({ isLogin, onSubmit }) => {
       setError('Please fill in all fields.');
       return;
     }
-    const payload = isLogin ? { email, password } : { email, password, username };
+
+    if (password.length < 8) {
+      setError('Password must be at least 8 characters long.');
+      return;
+    }
+
+    const sanitizedEmail = sanitizeEmail(email);
+    const sanitizedPassword = sanitizePassword(password);
+    const sanitizedUsername = sanitizeUsername(username);
+
+    const payload = isLogin ? { email: sanitizedEmail, password: sanitizedPassword } : { email: sanitizedEmail, password: sanitizedPassword, username: sanitizedUsername };
     await onSubmit(payload);
   };
 
