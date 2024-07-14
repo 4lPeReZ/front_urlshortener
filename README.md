@@ -1,70 +1,32 @@
-# Getting Started with Create React App
+# Linkly: Servicio de Acortamiento de URLs
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Linkly es un servicio de acortamiento de URLs que permite a los usuarios acortar enlaces largos, gestionar sus enlaces acortados y registrarse/iniciar sesión para tener acceso a funcionalidades adicionales. El servicio facilita una experiencia de navegación más eficiente y organizada.
 
-## Available Scripts
+## Funcionalidades Principales
 
-In the project directory, you can run:
+- **Registro e Inicio de Sesión**: Los usuarios pueden crear una cuenta y autenticarse para acceder a sus enlaces acortados.
+- **Acortar URLs**: Los usuarios pueden introducir una URL larga y obtener una versión más corta.
+- **Gestión de URLs**: Los usuarios autenticados pueden ver, editar y eliminar sus enlaces acortados. También pueden ver estadísticas como el número de clics en cada enlace.
+- **Interfaz Intuitiva**: La aplicación presenta una interfaz amigable y moderna, optimizada tanto para escritorio como para dispositivos móviles.
 
-### `npm start`
+## Tecnologías Utilizadas
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **React**: Biblioteca de JavaScript para construir interfaces de usuario.
+- **React Router**: Librería para manejo de rutas en una aplicación de React.
+- **Tailwind CSS**: Framework de CSS para diseñar rápidamente interfaces modernas y responsivas.
+- **State Management con Hooks**: Uso de `useState` y `useEffect` para manejar el estado y efectos secundarios en los componentes.
+- **SVG Icons**: Uso de íconos SVG para una mejor experiencia visual y performance.
+- **Sanitización de Inputs**: Implementación de funciones de sanitización para email y contraseña para mejorar la seguridad.
+- **Componentes Modales**: Uso de componentes modales personalizados para mostrar mensajes y confirmaciones al usuario.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Estructura de Componentes
 
-### `npm test`
+- **RegisterPage**: Página de registro de usuarios con validación y sanitización de inputs.
+- **AuthForm**: Formulario reutilizable para registro e inicio de sesión.
+- **URLForm**: Formulario para acortar URLs, incluye validación y sanitización de inputs.
+- **CustomModal**: Modal personalizado para mostrar mensajes y permitir la interacción del usuario.
+- **Header**: Encabezado de la aplicación que incluye navegación y control de sesión de usuario.
+- **URLList**: Lista de URLs acortadas con opciones de edición y eliminación.
+- **URLItem**: Elemento individual de la lista de URLs, mostrando detalles y acciones disponibles.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Este archivo `README.md` proporciona una descripción clara y completa de tu proyecto, sus características, tecnologías utilizadas, configuración y estructura de componentes. Puedes personalizarlo según tus necesidades para incluir más detalles específicos.
