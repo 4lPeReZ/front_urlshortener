@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import URLForm from '../components/URLForm';
 import URLList from '../components/URLList';
 import {
@@ -18,7 +17,6 @@ const HomePage = () => {
   const [editingUrl, setEditingUrl] = useState(null);
   const [newOriginalUrl, setNewOriginalUrl] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('user'));
@@ -46,14 +44,6 @@ const HomePage = () => {
 
   const handleUrlCancel = () => {
     handleCancel(setEditingUrl, setNewOriginalUrl);
-  };
-
-  const handleLogin = () => {
-    navigate('/login');
-  };
-
-  const handleRegister = () => {
-    navigate('/register');
   };
 
   return (
